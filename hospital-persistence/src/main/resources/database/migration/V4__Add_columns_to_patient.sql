@@ -1,0 +1,8 @@
+ALTER TABLE patient
+ADD (
+post_code BIGINT NULL DEFAULT NULL,
+city CHAR(50) NULL DEFAULT NULL,
+street CHAR(50) NULL DEFAULT NULL,
+house_number INT(10) NULL DEFAULT NULL,
+apartment_number INT(10) NULL DEFAULT NULL
+);
