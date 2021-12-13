@@ -26,7 +26,7 @@
 <main class="flex-shrink-0">
     <div class="container">
         <h1 class="mt-5">It's simple <i>${appName}</i>.</h1>
-        <p class="lead">Patient List: <strong class="d-inline-block mb-2 text-success">${patients}</strong></p>
+        <p class="lead">Patient List:<strong class="d-inline-block mb-2 text-success">${patients}</strong></p>
         <div class="col-md-6">
             <p>You also can try:</p>
             <ul class="icon-list">

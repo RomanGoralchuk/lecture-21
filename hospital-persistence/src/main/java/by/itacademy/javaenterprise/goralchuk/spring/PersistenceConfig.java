@@ -16,19 +16,18 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan(basePackages = "by.itacademy.javaenterprise.goralchuk.dao")
-@PropertySource("classpath*:*.properties")
 @EnableTransactionManagement
+@ComponentScan(basePackages = "by.itacademy.javaenterprise.goralchuk.dao")
+@PropertySource("classpath:database.properties")
 public class PersistenceConfig {
     @Autowired
     private Environment environment;
 
-    @Bean(destroyMethod = "close")
-    public DataSource dataSourceBean(){
+    @Bean (destroyMethod = "close")
+    public BasicDataSource dataSourceBean(){
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setDriverClassName(environment.getProperty("db.driver.class"));
         basicDataSource.setUrl(environment.getProperty("db.url"));
@@ -42,16 +41,15 @@ public class PersistenceConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSourceBean());
+        entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter());
         entityManagerFactory.setPackagesToScan("by.itacademy.javaenterprise.goralchuk.entity");
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        entityManagerFactory.setJpaVendorAdapter(vendorAdapter);
-
         Properties jpaProperties = new Properties();
-        jpaProperties.put("hibernate.dialect", environment.getProperty("hibernate.show.sql"));
-        jpaProperties.put("hibernate.connection.autocommit", environment.getProperty("hibernate.show.sql"));
-        jpaProperties.put("hibernate.show_sql", environment.getProperty("hhibernate.show_sql"));
-        jpaProperties.put("hibernate.format_sql", environment.getProperty("ibernate.format_sql"));
-        jpaProperties.put("hibernate.physical_naming_strategy", environment.getProperty("ibernate.physical_naming_strategy"));
+        jpaProperties.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
+        jpaProperties.put("hibernate.connection.autocommit", environment.getProperty("hibernate.connection.autocommit"));
+        jpaProperties.put("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
+        jpaProperties.put("hibernate.format_sql", environment.getProperty("hibernate.format_sql"));
+        jpaProperties.put("hibernate.physical_naming_strategy", environment.getProperty("hibernate.physical_naming_strategy"));
+
         entityManagerFactory.setJpaProperties(jpaProperties);
         return entityManagerFactory;
     }
@@ -74,5 +72,9 @@ public class PersistenceConfig {
         transactionTemplate.setTransactionManager(transactionManager());
         transactionTemplate.setTimeout(environment.getProperty("spring.transaction.timeout", Integer.class));
         return transactionTemplate;
+    }
+
+    public JpaVendorAdapter jpaVendorAdapter() {
+        return new HibernateJpaVendorAdapter();
     }
 }

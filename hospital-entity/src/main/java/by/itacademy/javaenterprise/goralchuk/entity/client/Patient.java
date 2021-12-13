@@ -2,6 +2,7 @@ package by.itacademy.javaenterprise.goralchuk.entity.client;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
+@ToString(callSuper=true)
 @Entity
 @Table(name = "patient")
 @OptimisticLocking

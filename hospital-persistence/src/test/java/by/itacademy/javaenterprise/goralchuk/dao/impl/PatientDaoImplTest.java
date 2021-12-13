@@ -15,10 +15,6 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,7 +50,6 @@ public class PatientDaoImplTest {
     public void closeEntityManager() {
         entityManager.close();
     }
-
 
     @Test
     public void whenFindPatientById() {
