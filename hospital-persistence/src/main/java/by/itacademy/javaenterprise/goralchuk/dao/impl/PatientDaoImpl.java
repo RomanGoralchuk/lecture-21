@@ -41,13 +41,10 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public Patient save(Patient patient) {
         try {
-            entityManager.getTransaction().begin();
             entityManager.persist(patient);
-            entityManager.getTransaction().commit();
             logger.debug("The transaction was successful - {}", patient);
             return patient;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
             logger.error("Transaction failed {}", e.getMessage(), e);
             return null;
         }
@@ -57,13 +54,10 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public Patient update(Patient patient) {
         try {
-            entityManager.getTransaction().begin();
             entityManager.refresh(patient);
-            entityManager.getTransaction().commit();
             logger.debug("The transaction was successful - {}", patient.getPatientIdCardNumber());
             return patient;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
             logger.error("Transaction failed {}", e.getMessage(), e);
             return null;
         }
@@ -73,8 +67,6 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public long delete(Long id) {
         try {
-            entityManager.getTransaction().begin();
-
             CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 
             CriteriaDelete<Patient> criteriaDelete = cb.createCriteriaDelete(Patient.class);
@@ -84,10 +76,8 @@ public class PatientDaoImpl implements PatientDao {
 
             entityManager.createQuery(criteriaDelete).executeUpdate();
 
-            entityManager.getTransaction().commit();
             return id;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
             logger.error("Transaction failed {}", e.getMessage(), e);
             return 0;
         }
