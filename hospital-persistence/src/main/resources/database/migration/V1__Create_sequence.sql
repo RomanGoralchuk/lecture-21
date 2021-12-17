@@ -1,0 +1,8 @@
+CREATE SEQUENCE patient_sequence
+    INCREMENT BY 10
+    MINVALUE=1
+    MAXVALUE=10000
+    START WITH 1
+    NOCACHE
+    NOCYCLE
+;
